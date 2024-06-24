@@ -116,11 +116,11 @@
 <body>
   <div class="header-box">
     <h1 class="blogname">
-      <a href="https://ragas.github.io">Sagar's Blog</a>    
+      <a href="https://ragas.github.io">Sagar's Blog</a>
     </h1>
     <div class="social-links">
-      <a href="https://github.com/ragas"><img src="../data/github-mark.svg"></img>http://github.com/ragas</a>
-      <a href="mailto:sagar0x2a@gmail.com">📧 sagar0x2a@gmail.com</a>
+      <a href="https://github.com/ragas"><img src="../data/github-mark.svg"></img>github</a>
+      <a href="mailto:sagar0x2a@gmail.com">📧 email</a>
     </div>
   </div>
   <div class="main-box">
@@ -147,8 +147,7 @@
           <li><a href="#performance-improvements"
           id="toc-performance-improvements">Performance
           Improvements</a></li>
-          <li><a href="#conclusion"
-          id="toc-conclusion">Conclusion</a></li>
+          <li><a href="#outro" id="toc-outro">Outro</a></li>
           </ul>
         </div>
 
@@ -158,8 +157,8 @@
         <div class="content-body">
           <div class="column-end"></div>
           <div class="titlebar">
-
             <h1 class="title">Java’s ForkJoinPool</h1>
+            <div class="blogdate">March 2024</div>
           </div>
           <div class="content">
                         <div class="lead">
@@ -169,7 +168,8 @@ Java, and existed from Java 1.7. ForkJoinPool, uses
 blog posts explores this library.</p>
                             <div class="github">
                 <p><img src="../data/github-mark.svg" style="height:1.2rem" /> <a
-href="https://github.com/ragas/SyncSillies/tree/main/FJPoolTest">GitHub</a></p>
+href="https://github.com/ragas/SyncSillies/tree/main/FJPoolTest">Code
+Link</a></p>
               </div>
                           </div>
             
@@ -219,7 +219,18 @@ href="https://github.com/ragas/SyncSillies/tree/main/FJPoolTest">GitHub</a></p>
             <p>ForkJoinPool allows max parallelism of 32767. This is
             because a field called ‘ctrl’ which is 64-bit and holds
             4x16bit information including one for number of total
-            workers, allowing 2^15-1 as max parallelism.</p>
+            workers, allowing
+            <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="\mathit{2^{15}-1}" >
+              <mrow>
+                <msup>
+                  <mn mathvariant="italic">2</mn>
+                  <mn mathvariant="italic">15</mn>
+                </msup>
+                <mo>−</mo>
+                <mn mathvariant="italic">1</mn>
+              </mrow>
+            </math>
+            as max parallelism.</p>
             </blockquote>
             <h2 id="an-example-multiplying-matrices">An Example:
             Multiplying Matrices</h2>
@@ -391,7 +402,7 @@ href="https://github.com/ragas/SyncSillies/tree/main/FJPoolTest">GitHub</a></p>
             I/O  <img height="6" width="16" border="0" hspace="0" vspace="0" src="jprofiler_images/ffffc400_bff000000.png"> Waiting
             threads  
             </p>
-            <h2 id="conclusion">Conclusion</h2>
+            <h2 id="outro">Outro</h2>
             <p>This is first post in the series, and I do intend to
             cover more details of the algorithms, work-queues and
             similar libraries in other languages. The source code for
