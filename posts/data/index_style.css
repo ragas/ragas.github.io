@@ -1,3 +1,65 @@
+@font-face {
+  font-family: 'cmu_serif';
+  src: url('cmunrm-webfont.woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'cmu_serif';
+  src: url('cmunbx-webfont.woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'cmu_serif';
+  src: url('cmunti-webfont.woff');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'cmu_serif';
+  src: url('cmunbi-webfont.woff');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'cmu_tt';
+  src: url('cmuntt-webfont.woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'cmu_tt';
+  src: url('cmuntb-webfont.woff');
+  font-weight: bold;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'cmu_tt';
+  src: url('cmunti-webfont.woff');
+  font-style: italic;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'cmu_tt';
+  src: url('cmuntx-webfont.woff');
+  font-style: italic;
+  font-weight: bold;
+}
+
+:root {
+  --main-font: 'cmu_serif';
+  --monospace-font: 'cmu_tt'
+}
+
+
 body {
   display: flex;
   flex-direction: column;
@@ -27,6 +89,19 @@ body {
     padding-right: 2.75rem;
     min-width: 59.25rem;
   }
+
+  html {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: calc(1119px)) {
+
+
+  html {
+    font-size: 14pt;
+  }
+
 }
 
 @media screen {
@@ -38,6 +113,7 @@ body {
   body {
     color: #000;
     background-color: #f8f9fa;
+    font-family: 'cmu_serif';
   }
 }
 
@@ -58,7 +134,7 @@ h2 {
   padding-left: 12px;
   padding-right: 12px;
   border-bottom: 2px solid #454545;
-  color: #454545;
+  color: #252638;
 }
 
 .post-header {
@@ -81,7 +157,7 @@ a {
 
 ul {
   position: relative;
-  list-style: none;
+  list-style: disc;
   font-size: 1.2rem;
   padding: 0;
   margin: 0;

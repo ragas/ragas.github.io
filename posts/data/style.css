@@ -1,6 +1,65 @@
-:root {
-  --monospace-font: 'Recursive Mono Linear Static'
+@font-face {
+  font-family: 'cmu_serif';
+  src: url('cmunrm-webfont.woff');
+  font-weight: normal;
+  font-style: normal;
 }
+
+@font-face {
+  font-family: 'cmu_serif';
+  src: url('cmunbx-webfont.woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'cmu_serif';
+  src: url('cmunti-webfont.woff');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'cmu_serif';
+  src: url('cmunbi-webfont.woff');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'cmu_tt';
+  src: url('cmuntt-webfont.woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'cmu_tt';
+  src: url('cmuntb-webfont.woff');
+  font-weight: bold;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'cmu_tt';
+  src: url('cmunti-webfont.woff');
+  font-style: italic;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'cmu_tt';
+  src: url('cmuntx-webfont.woff');
+  font-style: italic;
+  font-weight: bold;
+}
+
+:root {
+  --main-font: 'cmu_serif';
+  --monospace-font: 'cmu_tt'
+}
+
+
 
 .main-box {
   min-width: auto;
@@ -197,6 +256,7 @@ math {
   body {
     color: #000;
     background-color: #f8f9fa;
+    font-family: 'cmu_serif';
   }
 }
 
@@ -259,6 +319,10 @@ h1 {
 }
 
 @media screen and (min-width: 1120px) {
+  html {
+    font-size: 18px;
+  }
+
   .main-box {
     padding-left: 2.75rem;
     padding-right: 2.75rem;
@@ -322,6 +386,10 @@ h1 {
   .toc-container {
     display: none;
 
+  }
+
+  html {
+    font-size: 14pt;
   }
 
 }
