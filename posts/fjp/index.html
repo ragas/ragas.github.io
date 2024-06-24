@@ -156,103 +156,103 @@
       
       <div class="page-content">
         <div class="content-body">
-          <div class="columnEnd"></div>
+          <div class="column-end"></div>
           <div class="titlebar">
 
             <h1 class="title">Java’s ForkJoinPool</h1>
           </div>
           <div class="content">
-	                <div class="lead">
+                        <div class="lead">
               <p>ForkJoinPool is core concurrency framework provided by
 Java, and existed from Java 1.7. ForkJoinPool, uses
 <em>work-stealing</em> to achieve very high throughput. This series of
 blog posts explores this library.</p>
-            </div>
-	                  <h2 id="intro">Intro</h2>
-                  <p>In a multi-threaded environment, especially <a
-                  href="https://en.wikipedia.org/wiki/Multiple_instruction,_multiple_data">MIMD</a>
-                  style computer (i.e most of the processors having
-                  multiple cores and threads), work-stealing based
-                  scheduling algorithms give increased throughput. The
-                  idea is pretty old<span class="citation"
-                  data-cites="burton1981executing"><sup><a
-                  href="#ref-burton1981executing"
-                  role="doc-biblioref">1</a></sup></span>. The core
-                  concept of work-stealing is that if there is a thread
-                  which has exhausted it’s own works then it trying to
-                  pickup work from other threads queues, called
-                  work-stealing. This is different from thecentralized
-                  algorithm trying to dispatch work to threads.</p>
-                  <h2 id="work-queues">Work-Queues</h2>
-                  <p>It is useful to start the discussion with work
-                  queues. One of which is created for each thread. In
-                  Java its implemented as inner class called
-                  <code>WorkQueue</code> Internally its implemented as a
-                  dequeue. The standard way<span class="citation"
-                  data-cites="herlihy2020art"><sup><a
-                  href="#ref-herlihy2020art"
-                  role="doc-biblioref">2</a></sup></span> is to have
-                  tasks pushed and popped from one end by the owning
-                  thread and popped from other end by stealing thread.
-                  The actual implementation uses a circular dequeue
-                  design<span class="citation"
-                  data-cites="chase2005dynamic"><sup><a
-                  href="#ref-chase2005dynamic"
-                  role="doc-biblioref">3</a></sup></span> which
-                  dynamically resizes, and a relaxed condition that a
-                  task can be taken multiple times<span class="citation"
-                  data-cites="michael2009idempotent"><sup><a
-                  href="#ref-michael2009idempotent"
-                  role="doc-biblioref">4</a></sup></span> and
-                  optimizations for architectures with very relaxed
-                  memory models<span class="citation"
-                  data-cites="le2013correct"><sup><a
-                  href="#ref-le2013correct"
-                  role="doc-biblioref">5</a></sup></span> like ARM. The
-                  operations are called push, pop and poll (i.e. steal)
-                  by the ForkJoinPool. We will go more in details in
-                  next posts. For now a quick demonstration of
-                  effectiveness of fork-join.</p>
-                  <blockquote>
-                  <p>ForkJoinPool allows max parallelism of 32767. This
-                  is because a field called ‘ctrl’ which is 64-bit and
-                  holds 4x16bit information including one for number of
-                  total workers, allowing 2^15-1 as max parallelism.</p>
-                  </blockquote>
-                  <h2 id="an-example-multiplying-matrices">An Example:
-                  Multiplying Matrices</h2>
-                  <p>Let’s start with a simple example. We will use a
-                  ForkJoinPool to do recursive matrix multiplication,
-                  specifically that of a square matrix with power of 2
-                  size. This is a straightforward divide-and-conquer
-                  alogrim <a
-                  href="https://en.wikipedia.org/wiki/Matrix_multiplication_algorithm#Divide-and-conquer_algorithm">wiki</a>
-                  involving 8 sub-matrix multiplications. This in
-                  <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="\theta(n^{3})" >
-                    <mrow>
-                      <mi>θ</mi>
-                      <mo>⁢</mo>
-                      <mrow>
-                        <mo stretchy="false">(</mo>
-                        <msup>
-                          <mi>n</mi>
-                          <mn>3</mn>
-                        </msup>
-                        <mo stretchy="false">)</mo>
-                      </mrow>
-                    </mrow>
-                  </math>
-                  time complexity (of course, better algorithms exist
-                  but this will do for demonstration).</p>
-                  <figure>
-                  <img src="mm.svg" alt="Matrix Multiplication" />
-                  <figcaption aria-hidden="true">Matrix
-                  Multiplication</figcaption>
-                  </figure>
-                  <h2 id="creating-forkjoinpool">Creating
-                  ForkJoinPool</h2>
-                  <div class="sourceCode" id="cb1"><pre
-                  class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">(</span><span class="dt">var</span> forkJoinPool <span class="op">=</span></span>
+                            <div class="github">
+                <p><img src="../data/github-mark.svg" style="height:1.2rem" /> <a
+href="https://github.com/ragas/SyncSillies/tree/main/FJPoolTest">GitHub</a></p>
+              </div>
+                          </div>
+            
+            <h2 id="intro">Intro</h2>
+            <p>In a multi-threaded environment, especially <a
+            href="https://en.wikipedia.org/wiki/Multiple_instruction,_multiple_data">MIMD</a>
+            style computer (i.e most of the processors having multiple
+            cores and threads), work-stealing based scheduling
+            algorithms give increased throughput. The idea is pretty
+            old<span class="citation"
+            data-cites="burton1981executing"><sup><a
+            href="#ref-burton1981executing"
+            role="doc-biblioref">1</a></sup></span>. The core concept of
+            work-stealing is that if there is a thread which has
+            exhausted it’s own works then it trying to pickup work from
+            other threads queues, called work-stealing. This is
+            different from thecentralized algorithm trying to dispatch
+            work to threads.</p>
+            <h2 id="work-queues">Work-Queues</h2>
+            <p>It is useful to start the discussion with work queues.
+            One of which is created for each thread. In Java its
+            implemented as inner class called <code>WorkQueue</code>
+            Internally its implemented as a dequeue. The standard
+            way<span class="citation"
+            data-cites="herlihy2020art"><sup><a
+            href="#ref-herlihy2020art"
+            role="doc-biblioref">2</a></sup></span> is to have tasks
+            pushed and popped from one end by the owning thread and
+            popped from other end by stealing thread. The actual
+            implementation uses a circular dequeue design<span
+            class="citation" data-cites="chase2005dynamic"><sup><a
+            href="#ref-chase2005dynamic"
+            role="doc-biblioref">3</a></sup></span> which dynamically
+            resizes, and a relaxed condition that a task can be taken
+            multiple times<span class="citation"
+            data-cites="michael2009idempotent"><sup><a
+            href="#ref-michael2009idempotent"
+            role="doc-biblioref">4</a></sup></span> and optimizations
+            for architectures with very relaxed memory models<span
+            class="citation" data-cites="le2013correct"><sup><a
+            href="#ref-le2013correct"
+            role="doc-biblioref">5</a></sup></span> like ARM. The
+            operations are called push, pop and poll (i.e. steal) by the
+            ForkJoinPool. We will go more in details in next posts. For
+            now a quick demonstration of effectiveness of fork-join.</p>
+            <blockquote>
+            <p>ForkJoinPool allows max parallelism of 32767. This is
+            because a field called ‘ctrl’ which is 64-bit and holds
+            4x16bit information including one for number of total
+            workers, allowing 2^15-1 as max parallelism.</p>
+            </blockquote>
+            <h2 id="an-example-multiplying-matrices">An Example:
+            Multiplying Matrices</h2>
+            <p>Let’s start with a simple example. We will use a
+            ForkJoinPool to do recursive matrix multiplication,
+            specifically that of a square matrix with power of 2 size.
+            This is a straightforward divide-and-conquer alogrim <a
+            href="https://en.wikipedia.org/wiki/Matrix_multiplication_algorithm#Divide-and-conquer_algorithm">wiki</a>
+            involving 8 sub-matrix multiplications. This in
+            <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="\theta(n^{3})" >
+              <mrow>
+                <mi>θ</mi>
+                <mo>⁢</mo>
+                <mrow>
+                  <mo stretchy="false">(</mo>
+                  <msup>
+                    <mi>n</mi>
+                    <mn>3</mn>
+                  </msup>
+                  <mo stretchy="false">)</mo>
+                </mrow>
+              </mrow>
+            </math>
+            time complexity (of course, better algorithms exist but this
+            will do for demonstration).</p>
+            <figure>
+            <img src="mm.svg" alt="Matrix Multiplication" />
+            <figcaption aria-hidden="true">Matrix
+            Multiplication</figcaption>
+            </figure>
+            <h2 id="creating-forkjoinpool">Creating ForkJoinPool</h2>
+            <div class="sourceCode" id="cb1"><pre
+            class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">(</span><span class="dt">var</span> forkJoinPool <span class="op">=</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="fu">ForkJoinPool</span><span class="op">(</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>            parallelism<span class="op">,</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            ForkJoinPool<span class="op">.</span><span class="fu">defaultForkJoinWorkerThreadFactory</span><span class="op">,</span></span>
@@ -264,31 +264,28 @@ blog posts explores this library.</p>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">null</span><span class="op">,</span> <span class="co">// saturate</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>            <span class="dv">1L</span><span class="op">,</span> <span class="co">// keepAliveTime and its unit</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            <span class="bu">TimeUnit</span><span class="op">.</span><span class="fu">MILLISECONDS</span><span class="op">))</span> <span class="op">{</span></span></code></pre></div>
-                  <p>For testing, a custom <code>ForkJoinPool</code> is
-                  constructed. Though generally using
-                  <code>commonPool</code> is a better idea. We set the
-                  maximum pool size to exactly same as parallelism, (the
-                  <code>commonPool</code> tends to keep it around
-                  256+parallelism) and the <code>keepAliveTime</code> is
-                  set to minimum (1ms), so threads are terminated
-                  quickly. This is generally not a good idea as creating
-                  a new thread is quite expensive.</p>
-                  <h2 id="submitting-tasks-to-the-pool">Submitting Tasks
-                  to the pool</h2>
-                  <p>Any runnable or callable can be submitted to the
-                  pool, though there some specialized
-                  <code>ForkJoinTask</code> provided. A
-                  <code>ForkJoinTask</code> behaves like a lightweight
-                  thread. It implement <code>Future</code> interface, so
-                  they can be <code>joined</code>. Method
-                  <code>compute</code> of <code>ForkJoinTask</code>
-                  needs to be overriden and does the acutal work. A task
-                  can submit more tasks to the pool while it itself is
-                  running. And adding new tasks is done by the
-                  <code>.fork()</code> method on the task (or
-                  <code>invoke</code>).</p>
-                  <div class="sourceCode" id="cb2"><pre
-                  class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="at">@Override</span></span>
+            <p>For testing, a custom <code>ForkJoinPool</code> is
+            constructed. Though generally using <code>commonPool</code>
+            is a better idea. We set the maximum pool size to exactly
+            same as parallelism, (the <code>commonPool</code> tends to
+            keep it around 256+parallelism) and the
+            <code>keepAliveTime</code> is set to minimum (1ms), so
+            threads are terminated quickly. This is generally not a good
+            idea as creating a new thread is quite expensive.</p>
+            <h2 id="submitting-tasks-to-the-pool">Submitting Tasks to
+            the pool</h2>
+            <p>Any runnable or callable can be submitted to the pool,
+            though there some specialized <code>ForkJoinTask</code>
+            provided. A <code>ForkJoinTask</code> behaves like a
+            lightweight thread. It implement <code>Future</code>
+            interface, so they can be <code>joined</code>. Method
+            <code>compute</code> of <code>ForkJoinTask</code> needs to
+            be overriden and does the acutal work. A task can submit
+            more tasks to the pool while it itself is running. And
+            adding new tasks is done by the <code>.fork()</code> method
+            on the task (or <code>invoke</code>).</p>
+            <div class="sourceCode" id="cb2"><pre
+            class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="at">@Override</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">compute</span><span class="op">()</span> <span class="op">{</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">long</span><span class="op">[][]</span> C <span class="op">=</span> <span class="kw">new</span> <span class="dt">long</span><span class="op">[</span>size<span class="op">][</span>size<span class="op">];</span></span>
@@ -309,150 +306,140 @@ blog posts explores this library.</p>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">result</span> <span class="op">=</span> C<span class="op">;</span></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tryComplete</span><span class="op">();</span> <span class="co">// it is important to call the completer.</span></span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span></code></pre></div>
-                  <p>Here, for division of tasks we will extend
-                  <code>CountedCompleter</code> abstract class. We can
-                  use <code>RecursiveTask</code> though this one
-                  provides more flexibility. The core method is
-                  <code>compute</code> which is executed inside the
-                  pool. During the compute each task will create 8
-                  sub-tasks for the sub-matrix computation by using the
-                  <code>fork</code> method. The completer method called
-                  <code>onCompletion</code> can be overridden by a task.
-                  In this example we use to do the construction of
-                  resultant sub-matrix after all the sub-tasks are done.
-                  A tasks completer (<code>onCompletion</code>) would
-                  not be called unless all the subtasks are
-                  completed.</p>
-                  <blockquote>
-                  <p>We do not have to fork into 8, we can just fork
-                  into 7 and use the current task to take over the work
-                  of 8th task.</p>
-                  </blockquote>
-                  <p>Everytime the tasks is forked into sub-task(s), we
-                  have to tell ForkJoinPool. It is to keep track of how
-                  many sub-tasks need to be completed for current task
-                  to complete. And this is done by
-                  <code>addToPendingCount</code> or
-                  <code>setPendingCount</code>.</p>
-                  <p>After the work is done in compute, we have to
-                  indicate that the work is done. This is done by
-                  calling <code>tryComplete</code> which first calls
-                  current tasks completer (which is the
-                  <code>onCompletion()</code> method we overrode) and
-                  then calls the parent task’s completer. It keeps on
-                  calling up the parents chain until the root task is
-                  reached. (A root is the one whose parent is null).
-                  This happens <em>before</em> <code>isDone()</code> is
-                  called, i.e. a task is not done and not ready for join
-                  till the entire chain of parents is done. So trying to
-                  join on sub-tasks within compute can actually slow
-                  down the process or may even stall.</p>
-                  <p>If there is no action to perform after completion,
-                  then instead of <code>tryComplete</code> we can use
-                  <code>propagateCompletion</code>.It does not call the
-                  <code>onCompletion</code>.</p>
-                  <blockquote>
-                  <p>Do not call <code>.fork()</code> on same task
-                  twice!</p>
-                  </blockquote>
-                  <h2 id="performance-improvements">Performance
-                  Improvements</h2>
-                  <p>Here is performance on my machine, which is has an
-                  AMD cpu with 8 core, 16 threads. The actual numbers in
-                  the chart are not imporant but we get to see the
-                  impact of increased parallelism and deciding what
-                  should be the smalled work size.</p>
-                  <figure>
-                  <img src="parallelism.svg" title="Parallelism"
-                  alt="Duration &amp; Steal count by Parallelism" />
-                  <figcaption aria-hidden="true">Duration &amp; Steal
-                  count by Parallelism</figcaption>
-                  </figure>
-                  <p>The increase in parallelism increases the
-                  throughput, reducing the overall time quite
-                  drastically. After around 8 threads there is not as
-                  much benefit, as expected.</p>
-                  <figure>
-                  <img src="max_work_size.svg" title="Work Size"
-                  alt="Duration &amp; Steal count by work size" />
-                  <figcaption aria-hidden="true">Duration &amp; Steal
-                  count by work size</figcaption>
-                  </figure>
-                  <p>The increasing the size of smallest unit of work,
-                  initially reduces the time taken, but as the work size
-                  keeps increasing the time taken too keeps on
-                  increasing. Effectively, we need to find suitable
-                  size, a very large size can negatively impact the
-                  throughput.</p>
-                  <p>And here is a profiling image, as we can see the
-                  thread-count increasing does distribute the work
-                  causing the multiplication to complete quickly. We
-                  also see the effect of over-creating the threads, so
-                  they spend much time in park state.</p>
-                  <figure>
-                  <img src="plot.svg" alt="image" />
-                  <figcaption aria-hidden="true">image</figcaption>
-                  </figure>
-                  <p>
-                  <img height="6" width="16" border="0" hspace="0" vspace="0" src="jprofiler_images/ff00c400_bff000000.png"> Runnable
-                  threads  <img height="6" width="16" border="0" hspace="0" vspace="0" src="jprofiler_images/ffff0000_bff000000.png"> Blocked
-                  threads  <img height="6" width="16" border="0" hspace="0" vspace="0" src="jprofiler_images/ff80ffff_bff000000.png"> Threads
-                  in Net
-                  I/O  <img height="6" width="16" border="0" hspace="0" vspace="0" src="jprofiler_images/ffffc400_bff000000.png"> Waiting
-                  threads  
-                  </p>
-                  <h2 id="conclusion">Conclusion</h2>
-                  <p>This is first post in the series, and I do intend
-                  to cover more details of the algorithms, work-queues
-                  and similar libraries in other languages. The source
-                  code for the above Java test could be found at: <a
-                  href="https://github.com/ragas/SyncSillies/tree/main/FJPoolTest">GitHub</a></p>
-                  <div id="refs" class="references csl-bib-body"
-                  data-entry-spacing="0" data-line-spacing="2"
-                  role="list">
-                  <div id="ref-burton1981executing" class="csl-entry"
-                  role="listitem">
-                  <div class="csl-left-margin">1. </div><div
-                  class="csl-right-inline">Burton, F. W. &amp; Sleep, M.
-                  R. Executing functional programs on a virtual tree of
-                  processors. in <em>Proceedings of the 1981 conference
-                  on functional programming languages and computer
-                  architecture</em> 187–194 (1981).</div>
-                  </div>
-                  <div id="ref-herlihy2020art" class="csl-entry"
-                  role="listitem">
-                  <div class="csl-left-margin">2. </div><div
-                  class="csl-right-inline">Herlihy, M., Shavit, N.,
-                  Luchangco, V. &amp; Spear, M. <em>The Art of
-                  Multiprocessor Programming</em>. (Newnes, 2020).</div>
-                  </div>
-                  <div id="ref-chase2005dynamic" class="csl-entry"
-                  role="listitem">
-                  <div class="csl-left-margin">3. </div><div
-                  class="csl-right-inline">Chase, D. &amp; Lev, Y.
-                  Dynamic circular work-stealing deque. in
-                  <em>Proceedings of the seventeenth annual ACM
-                  symposium on parallelism in algorithms and
-                  architectures</em> 21–28 (2005).</div>
-                  </div>
-                  <div id="ref-michael2009idempotent" class="csl-entry"
-                  role="listitem">
-                  <div class="csl-left-margin">4. </div><div
-                  class="csl-right-inline">Michael, M. M., Vechev, M. T.
-                  &amp; Saraswat, V. A. Idempotent work stealing. in
-                  <em>Proceedings of the 14th ACM SIGPLAN symposium on
-                  principles and practice of parallel programming</em>
-                  45–54 (2009).</div>
-                  </div>
-                  <div id="ref-le2013correct" class="csl-entry"
-                  role="listitem">
-                  <div class="csl-left-margin">5. </div><div
-                  class="csl-right-inline">Lê, N. M., Pop, A., Cohen, A.
-                  &amp; Zappa Nardelli, F. Correct and efficient
-                  work-stealing for weak memory models. <em>ACM SIGPLAN
-                  Notices</em> <strong>48</strong>, 69–80 (2013).</div>
-                  </div>
-                  </div>
+            <p>Here, for division of tasks we will extend
+            <code>CountedCompleter</code> abstract class. We can use
+            <code>RecursiveTask</code> though this one provides more
+            flexibility. The core method is <code>compute</code> which
+            is executed inside the pool. During the compute each task
+            will create 8 sub-tasks for the sub-matrix computation by
+            using the <code>fork</code> method. The completer method
+            called <code>onCompletion</code> can be overridden by a
+            task. In this example we use to do the construction of
+            resultant sub-matrix after all the sub-tasks are done. A
+            tasks completer (<code>onCompletion</code>) would not be
+            called unless all the subtasks are completed.</p>
+            <blockquote>
+            <p>We do not have to fork into 8, we can just fork into 7
+            and use the current task to take over the work of 8th
+            task.</p>
+            </blockquote>
+            <p>Everytime the tasks is forked into sub-task(s), we have
+            to tell ForkJoinPool. It is to keep track of how many
+            sub-tasks need to be completed for current task to complete.
+            And this is done by <code>addToPendingCount</code> or
+            <code>setPendingCount</code>.</p>
+            <p>After the work is done in compute, we have to indicate
+            that the work is done. This is done by calling
+            <code>tryComplete</code> which first calls current tasks
+            completer (which is the <code>onCompletion()</code> method
+            we overrode) and then calls the parent task’s completer. It
+            keeps on calling up the parents chain until the root task is
+            reached. (A root is the one whose parent is null). This
+            happens <em>before</em> <code>isDone()</code> is called,
+            i.e. a task is not done and not ready for join till the
+            entire chain of parents is done. So trying to join on
+            sub-tasks within compute can actually slow down the process
+            or may even stall.</p>
+            <p>If there is no action to perform after completion, then
+            instead of <code>tryComplete</code> we can use
+            <code>propagateCompletion</code>.It does not call the
+            <code>onCompletion</code>.</p>
+            <blockquote>
+            <p>Do not call <code>.fork()</code> on same task twice!</p>
+            </blockquote>
+            <h2 id="performance-improvements">Performance
+            Improvements</h2>
+            <p>Here is performance on my machine, which is has an AMD
+            cpu with 8 core, 16 threads. The actual numbers in the chart
+            are not imporant but we get to see the impact of increased
+            parallelism and deciding what should be the smalled work
+            size.</p>
+            <figure>
+            <img src="parallelism.svg" title="Parallelism"
+            alt="Duration &amp; Steal count by Parallelism" />
+            <figcaption aria-hidden="true">Duration &amp; Steal count by
+            Parallelism</figcaption>
+            </figure>
+            <p>The increase in parallelism increases the throughput,
+            reducing the overall time quite drastically. After around 8
+            threads there is not as much benefit, as expected.</p>
+            <figure>
+            <img src="max_work_size.svg" title="Work Size"
+            alt="Duration &amp; Steal count by work size" />
+            <figcaption aria-hidden="true">Duration &amp; Steal count by
+            work size</figcaption>
+            </figure>
+            <p>The increasing the size of smallest unit of work,
+            initially reduces the time taken, but as the work size keeps
+            increasing the time taken too keeps on increasing.
+            Effectively, we need to find suitable size, a very large
+            size can negatively impact the throughput.</p>
+            <p>And here is a profiling image, as we can see the
+            thread-count increasing does distribute the work causing the
+            multiplication to complete quickly. We also see the effect
+            of over-creating the threads, so they spend much time in
+            park state.</p>
+            <figure>
+            <img src="plot.svg" alt="image" />
+            <figcaption aria-hidden="true">image</figcaption>
+            </figure>
+            <p>
+            <img height="6" width="16" border="0" hspace="0" vspace="0" src="jprofiler_images/ff00c400_bff000000.png"> Runnable
+            threads  <img height="6" width="16" border="0" hspace="0" vspace="0" src="jprofiler_images/ffff0000_bff000000.png"> Blocked
+            threads  <img height="6" width="16" border="0" hspace="0" vspace="0" src="jprofiler_images/ff80ffff_bff000000.png"> Threads
+            in Net
+            I/O  <img height="6" width="16" border="0" hspace="0" vspace="0" src="jprofiler_images/ffffc400_bff000000.png"> Waiting
+            threads  
+            </p>
+            <h2 id="conclusion">Conclusion</h2>
+            <p>This is first post in the series, and I do intend to
+            cover more details of the algorithms, work-queues and
+            similar libraries in other languages. The source code for
+            the above Java test could be found at: <a
+            href="https://github.com/ragas/SyncSillies/tree/main/FJPoolTest">GitHub</a></p>
+            <div id="refs" class="references csl-bib-body"
+            data-entry-spacing="0" data-line-spacing="2" role="list">
+            <div id="ref-burton1981executing" class="csl-entry"
+            role="listitem">
+            <div class="csl-left-margin">1. </div><div
+            class="csl-right-inline">Burton, F. W. &amp; Sleep, M. R.
+            Executing functional programs on a virtual tree of
+            processors. in <em>Proceedings of the 1981 conference on
+            functional programming languages and computer
+            architecture</em> 187–194 (1981).</div>
+            </div>
+            <div id="ref-herlihy2020art" class="csl-entry"
+            role="listitem">
+            <div class="csl-left-margin">2. </div><div
+            class="csl-right-inline">Herlihy, M., Shavit, N., Luchangco,
+            V. &amp; Spear, M. <em>The Art of Multiprocessor
+            Programming</em>. (Newnes, 2020).</div>
+            </div>
+            <div id="ref-chase2005dynamic" class="csl-entry"
+            role="listitem">
+            <div class="csl-left-margin">3. </div><div
+            class="csl-right-inline">Chase, D. &amp; Lev, Y. Dynamic
+            circular work-stealing deque. in <em>Proceedings of the
+            seventeenth annual ACM symposium on parallelism in
+            algorithms and architectures</em> 21–28 (2005).</div>
+            </div>
+            <div id="ref-michael2009idempotent" class="csl-entry"
+            role="listitem">
+            <div class="csl-left-margin">4. </div><div
+            class="csl-right-inline">Michael, M. M., Vechev, M. T. &amp;
+            Saraswat, V. A. Idempotent work stealing. in <em>Proceedings
+            of the 14th ACM SIGPLAN symposium on principles and practice
+            of parallel programming</em> 45–54 (2009).</div>
+            </div>
+            <div id="ref-le2013correct" class="csl-entry"
+            role="listitem">
+            <div class="csl-left-margin">5. </div><div
+            class="csl-right-inline">Lê, N. M., Pop, A., Cohen, A. &amp;
+            Zappa Nardelli, F. Correct and efficient work-stealing for
+            weak memory models. <em>ACM SIGPLAN Notices</em>
+            <strong>48</strong>, 69–80 (2013).</div>
+            </div>
+            </div>
           </div>
         </div>
       </div>

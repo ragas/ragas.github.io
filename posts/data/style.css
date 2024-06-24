@@ -23,15 +23,15 @@
 }
 
 .social-links {
-    align-self: end;
-    display: flex;
-    flex-direction: column;
-    font-size: 1.2rem;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
 }
 
 .social-links img {
-    height: 1.2rem;
-    padding: 2px;
+  height: 1.2rem;
+  padding: 2px;
 }
 
 .blogname {
@@ -50,15 +50,15 @@
 }
 
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 figcaption {
-    align-self: center;
+  align-self: center;
 }
 
 .references {
-  border-top: 2px solid  #454545;
+  border-top: 2px solid #454545;
   padding-top: 2rem;
   margin-top: 2rem;
 }
@@ -74,7 +74,7 @@ figcaption {
 }
 
 .content p>code {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 .content h2 {
@@ -148,14 +148,14 @@ blockquote {
   margin-left: 0;
 }
 
-.content p > code {
+.content p>code {
   color: crimson;
   font-weight: 400;
   border: 1px solid rgb(170, 148, 170);
   border-color: grey;
   padding: 2px 3px 1px;
   border-radius: 3px;
-  font-size: 1rem; 
+  font-size: 1rem;
 }
 
 .content pre {
@@ -179,8 +179,8 @@ blockquote {
 }
 
 figure {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -208,7 +208,7 @@ math {
   /* justify-content: flex-end; */
   /* align-items: center; */
   flex-direction: column;
-  
+
 }
 
 .titlebar::after {
@@ -223,10 +223,10 @@ math {
 }
 
 .title {
-    /* flex-grow: 1; */
-    align-self: center;
-    font-size: 2.2rem;
-    
+  /* flex-grow: 1; */
+  align-self: center;
+  font-size: 2.2rem;
+
 }
 
 h1 {
@@ -236,7 +236,7 @@ h1 {
 }
 
 
-.content :is(.lead) p {
+.content :is(.lead) {
   color: rgb(19, 32, 49);
   font-size: 1.25rem;
   line-height: 1.6;
@@ -292,6 +292,14 @@ h1 {
     border-top: 1px solid transparent
   }
 
+  .content {
+    grid-area: content;
+  }
+
+  .titlebar {
+    grid-area: titlebar;
+  }
+
   .content-body {
     display: grid;
     grid-template: min-content min-content min-content 1fr / minmax(0, 59.25rem) min-content;
@@ -301,14 +309,6 @@ h1 {
       'content  columnEnd';
   }
 
-  .titlebar {
-    grid-area: titlebar;
-  }
-
-  .content {
-    grid-area: 'content';
-
-  }
 }
 
 @media screen and (min-width: 1680px) {
